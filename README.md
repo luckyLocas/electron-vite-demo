@@ -1,6 +1,6 @@
-# billidentification
+# 本项目是使用electron-vite创建的一个客户端demo项目
 
-An Electron application with React and TypeScript
+使用了：react+antDesign+typescript+electron-vite
 
 ## Recommended IDE Setup
 
