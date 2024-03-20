@@ -8,7 +8,7 @@ export default function Footer(): JSX.Element {
         fontSize: '12px',
         color: '#b1b1b1',
       }}>
-      Copyright © 京ICP备2021006361号-2 北京朗道新科智能科技有限公司 版权所有
+      Copyright © 李川 版权所有
     </div>
   );
 }

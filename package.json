@@ -1,7 +1,7 @@
 {
-  "name": "billidentification",
+  "name": "electron-vite-demo",
   "version": "1.0.0",
-  "description": "票据识别demo",
+  "description": "demo",
   "main": "./out/main/index.js",
   "author": "lichuan",
   "homepage": "https://electron-vite.org",
