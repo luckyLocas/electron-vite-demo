@@ -77,7 +77,7 @@ if (!isFirstInstance) {
     console.log('new app started', commanLine);
     if (mainWindow) {
       mainWindow.focus();
-      mainWindow.show();
+      mainWindow.restore();
     }
   });
   app.on('window-all-closed', () => {
