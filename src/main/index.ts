@@ -14,7 +14,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
+      sandbox: false, // 禁用沙盒，当启用沙盒时，渲染器进程将无法访问底层系统资源，如文件系统、系统日志、网络等
+      webSecurity: false, // 关闭同源策略
     },
   });
 
@@ -64,7 +65,6 @@ if (!isFirstInstance) {
     app.on('browser-window-created', (_, window) => {
       optimizer.watchWindowShortcuts(window);
     });
-
     // IPC test
     ipcMain.on('ping', () => console.log('pong'));
 

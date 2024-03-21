@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import Axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
 
 export interface IApiConfig extends AxiosRequestConfig {
@@ -95,6 +96,11 @@ class Request {
       result
         .then(res => {
           let newData;
+          console.log('啊哈哈哈', res);
+          if (res?.data?.code !== 10000 && res?.data?.msg) {
+            message.error(res?.data?.msg);
+          }
+
           switch (response) {
             case EDataType.BOOLEAN:
               newData = true;
@@ -116,6 +122,8 @@ class Request {
           resole(newData);
         })
         .catch(error => {
+          console.log('啊哈哈哈111', error);
+
           let newData;
           switch (response) {
             case EDataType.BOOLEAN:
