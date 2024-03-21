@@ -4,9 +4,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import MockKoaApi from './koaRoutes';
 
+let mainWindow: Electron.BrowserWindow;
 function createWindow(): void {
   // 创建程序主窗口
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
     show: false,
@@ -25,13 +26,12 @@ function createWindow(): void {
 
   mainWindow.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url);
+    // 'deny' 表示不允许在 Electron 应用内打开新窗口。如果你想要允许在应用内打开新窗口，你可以返回 { action: 'allow' }。
     return { action: 'deny' };
   });
 
   // 基于electronic vite cli的渲染器HMR。
   // 加载用于开发的远程URL或用于生产的本地html文件。
-  console.log('process.env', process.env['ELECTRON_RENDERER_URL']);
-
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
@@ -59,9 +59,8 @@ if (!isFirstInstance) {
     // 设置windows的应用程序用户模型id
     electronApp.setAppUserModelId('com.electron');
 
-    // Default open or close DevTools by F12 in development
-    // and ignore CommandOrControl + R in production.
-    // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+    // 在开发环境中默认按 F12 打开或关闭 DevTools
+    // 在生产环境中忽略 CommandOrControl + R。
     app.on('browser-window-created', (_, window) => {
       optimizer.watchWindowShortcuts(window);
     });
@@ -74,7 +73,13 @@ if (!isFirstInstance) {
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
   });
-
+  app.on('second-instance', (_event, commanLine) => {
+    console.log('new app started', commanLine);
+    if (mainWindow) {
+      mainWindow.focus();
+      mainWindow.show();
+    }
+  });
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
       app.quit();
