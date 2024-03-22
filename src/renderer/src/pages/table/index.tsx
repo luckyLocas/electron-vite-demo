@@ -2,8 +2,9 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, message, Popconfirm } from 'antd';
 import { memo, useRef } from 'react';
 
-import { DeleteRecord, GetTableData } from './services';
+import { AddOrEdit, DeleteRecord, GetTableData } from './services';
 import PageContent from '@src/components/pageContent';
+import CModalForm from '@src/components/cModalForm';
 
 interface IColumns {
   id: string;
@@ -70,6 +71,16 @@ const TablePage = memo(() => {
         scroll={{
           y: '46vh',
         }}
+        headerTitle={
+          <CModalForm
+            title="添加"
+            trigger={<Button type="primary">添加</Button>}
+            onFinish={async () => {
+              return AddOrEdit({});
+            }}>
+            啊哈哈哈
+          </CModalForm>
+        }
         actionRef={tableRef}
         request={async params => {
           const rp = await GetTableData({
