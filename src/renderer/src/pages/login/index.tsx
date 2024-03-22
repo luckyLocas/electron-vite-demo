@@ -12,6 +12,9 @@ const Login = (): JSX.Element => {
         <h2 style={{ textAlign: 'center' }}>系统登录</h2>
         <ProForm
           title="登录"
+          submitter={{
+            searchConfig: { submitText: '登录' },
+          }}
           onFinish={async () => {
             navigate('/home');
           }}>
@@ -20,9 +23,9 @@ const Login = (): JSX.Element => {
             label="用户名"
             fieldProps={{
               size: 'large',
-              prefix: <UserOutlined className={'prefixIcon'} />,
+              prefix: <UserOutlined className="prefixIcon" />,
             }}
-            placeholder={'用户名'}
+            placeholder="用户名"
             rules={[
               {
                 required: true,
@@ -35,9 +38,9 @@ const Login = (): JSX.Element => {
             name="password"
             fieldProps={{
               size: 'large',
-              prefix: <LockOutlined className={'prefixIcon'} />,
+              prefix: <LockOutlined className="prefixIcon" />,
             }}
-            placeholder={'密码'}
+            placeholder="密码"
             rules={[
               {
                 required: true,

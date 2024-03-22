@@ -15,6 +15,11 @@ enum EDataType {
   PAGE_LIST = 3,
 }
 
+export interface IPageList {
+  data: never[];
+  total: number;
+}
+
 /**
  * 通用http请求实体类
  */
@@ -70,13 +75,13 @@ class Request {
    * 统一的请求入口，便于集中处理数据
    * 所有的post、get、put请求都走这里
    */
-  public request(
+  public request<T>(
     url: string,
     params = {},
     config: IApiConfig = {},
     method: Method = 'POST',
     response: EDataType = EDataType.ONLY_DATA,
-  ): Promise<unknown> {
+  ): Promise<T> {
     let result;
     switch (method) {
       case 'GET':
@@ -99,6 +104,10 @@ class Request {
           console.log('啊哈哈哈', res);
           if (res?.data?.code !== 10000 && res?.data?.msg) {
             message.error(res?.data?.msg);
+          }
+          if (res?.error) {
+            const err = JSON.parse(res?.error);
+            message.error(err?.message || '请求失败');
           }
 
           switch (response) {
@@ -156,12 +165,12 @@ class Request {
     return this.request(url, params, config, 'GET');
   }
 
-  public pagingRequest(url: string, params = {}, config?: IApiConfig): Promise<unknown> {
-    return this.request(url, params, config, 'POST', EDataType.PAGE_LIST);
+  public pagingRequest(url: string, params = {}, config?: IApiConfig): Promise<IPageList> {
+    return this.request<IPageList>(url, params, config, 'POST', EDataType.PAGE_LIST);
   }
 
-  public booleanRequest(url: string, params = {}, config?: IApiConfig, method?: Method): Promise<unknown> {
-    return this.request(url, params, config, method, EDataType.BOOLEAN);
+  public booleanRequest(url: string, params = {}, config?: IApiConfig, method?: Method): Promise<boolean> {
+    return this.request<boolean>(url, params, config, method, EDataType.BOOLEAN);
   }
 
   public getAllResponse(url: string, params = {}, config?: IApiConfig, method?: Method): Promise<unknown> {

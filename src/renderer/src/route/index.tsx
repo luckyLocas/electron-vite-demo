@@ -1,4 +1,5 @@
-import { HomeOutlined } from '@ant-design/icons';
+import { BarsOutlined, HomeOutlined } from '@ant-design/icons';
+import TablePage from '@src/pages/table';
 import { lazy } from 'react';
 
 const HomePage = lazy(() => import('@src/pages/home'));
@@ -23,6 +24,12 @@ const configRoute: IRoute = {
       name: '首页',
       icon: <HomeOutlined />,
       component: <HomePage />,
+    },
+    {
+      path: '/table',
+      name: '列表页',
+      icon: <BarsOutlined />,
+      component: <TablePage />,
     },
   ],
 };
