@@ -2,9 +2,18 @@ import './index.less';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import ReduxUtil from '@src/utils/reduxUtil';
+import { IReduxActionType } from '@src/redux';
+import { useCallback } from 'react';
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
+
+  const handleSubmit = useCallback(async values => {
+    localStorage.setItem('loginInfo', JSON.stringify(values));
+    ReduxUtil.dispatch(IReduxActionType.CHANGE_LOGIN_INFO, values);
+    navigate('/home');
+  }, []);
 
   return (
     <div className="login-container">
@@ -15,9 +24,7 @@ const Login = (): JSX.Element => {
           submitter={{
             searchConfig: { submitText: '登录' },
           }}
-          onFinish={async () => {
-            navigate('/home');
-          }}>
+          onFinish={handleSubmit}>
           <ProFormText
             name="username"
             label="用户名"

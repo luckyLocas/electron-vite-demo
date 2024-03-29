@@ -2,7 +2,7 @@ import HttpRequest from '@src/requests/request';
 
 /**获取列表数据 */
 export async function GetTableData(params: { pageNum?: number; pageSize?: number; wareHouseName?: string }) {
-  return HttpRequest.pagingRequest('/getPage', params);
+  return HttpRequest.pagingRequest('/api/company/page', params);
 }
 
 /**

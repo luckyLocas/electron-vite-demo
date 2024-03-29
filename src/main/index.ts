@@ -3,7 +3,9 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import MockKoaApi from './koaRoutes';
+// import SqliteUtil from './sqliteUtil';
 
+// SqliteUtil.init();
 let mainWindow: Electron.BrowserWindow;
 function createWindow(): void {
   // 创建程序主窗口
@@ -14,6 +16,7 @@ function createWindow(): void {
     // autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
+      nodeIntegration: true,
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false, // 禁用沙盒，当启用沙盒时，渲染器进程将无法访问底层系统资源，如文件系统、系统日志、网络等
       webSecurity: false, // 关闭同源策略
@@ -66,7 +69,6 @@ if (!isFirstInstance) {
     });
     // IPC test
     ipcMain.on('ping', () => console.log('pong'));
-
     createWindow();
 
     app.on('activate', function () {

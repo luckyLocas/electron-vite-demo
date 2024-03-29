@@ -4,6 +4,8 @@ import Footer from './footer';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import configRoute from '@src/route';
 import logo from '@src/assets/logo.png';
+import ReduxUtil from '@src/utils/reduxUtil';
+import { IReduxActionType } from '@src/redux';
 
 /**
  * 整体布局
@@ -44,7 +46,16 @@ const Layout = memo(() => {
       }}
       fixSiderbar
       fixedHeader
-      rightContentRender={() => <Link to="/login">退出</Link>}
+      rightContentRender={() => (
+        <Link
+          to="/login"
+          onClick={() => {
+            localStorage.removeItem('loginInfo');
+            ReduxUtil.dispatch(IReduxActionType.CHANGE_LOGIN_INFO, null);
+          }}>
+          退出
+        </Link>
+      )}
       footerRender={() => <Footer />}>
       <Outlet />
     </ProLayout>

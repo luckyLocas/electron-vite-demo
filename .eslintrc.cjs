@@ -10,5 +10,6 @@ module.exports = {
     'react/display-name': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/prop-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };
