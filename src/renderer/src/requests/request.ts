@@ -101,6 +101,7 @@ class Request {
       result
         .then(res => {
           let newData;
+          const { data } = res?.data ?? {};
           console.log('啊哈哈哈', res);
           if (res?.data?.code !== 10000 && res?.data?.msg) {
             message.error(res?.data?.msg);
@@ -115,12 +116,12 @@ class Request {
               newData = true;
               break;
             case EDataType.ONLY_DATA:
-              newData = res?.data;
+              newData = data;
               break;
             case EDataType.PAGE_LIST:
               newData = {
-                data: res?.data?.list || [],
-                total: res?.data?.list?.length || 0,
+                data: data?.list || [],
+                total: data?.list?.length || 0,
                 success: true,
               };
               break;

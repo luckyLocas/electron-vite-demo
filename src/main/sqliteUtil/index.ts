@@ -94,7 +94,7 @@ export default class SqliteUtil {
     const data = this.db
       .prepare('SELECT VALUE FROM t_config WHERE key=?')
       .get(EDBConfigkey.VERSION.toString()) as IDBConfig;
-    return +data.value;
+    return +data?.value;
   }
 
   /**获取所有配置 */

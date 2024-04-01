@@ -11,7 +11,7 @@
 ### Install
 
 ```bash
-$ npm install
+$ npm run electron:install
 ```
 
 ### Development

@@ -3,9 +3,9 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import MockKoaApi from './koaRoutes';
-// import SqliteUtil from './sqliteUtil';
+import SqliteUtil from './sqliteUtil';
 
-// SqliteUtil.init();
+SqliteUtil.init();
 let mainWindow: Electron.BrowserWindow;
 function createWindow(): void {
   // 创建程序主窗口
