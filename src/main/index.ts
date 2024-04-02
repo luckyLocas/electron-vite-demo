@@ -4,7 +4,15 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import MockKoaApi from './koaRoutes';
 import SqliteUtil from './sqliteUtil';
+import AppConfig from './appConfig';
+import fs from 'fs';
 
+export const appAssetsUrl = AppConfig.assertPath;
+console.log('数据库地址', AppConfig.sqlitePath);
+if (!fs.existsSync(appAssetsUrl)) {
+  fs.mkdirSync(appAssetsUrl);
+  fs.mkdirSync(appAssetsUrl + '/img');
+}
 SqliteUtil.init();
 let mainWindow: Electron.BrowserWindow;
 function createWindow(): void {

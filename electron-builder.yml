@@ -13,6 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: billidentification
+extraResources: ["./sqlite3/"]
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
