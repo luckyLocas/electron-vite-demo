@@ -35,6 +35,17 @@ function createWindow(): void {
     mainWindow.show();
   });
 
+  mainWindow.on('close', function () {
+    // 主窗口被关闭时，需将所有子窗口全部关闭
+    const data = BrowserWindow.getAllWindows();
+    data?.forEach(item => {
+      if (item !== mainWindow) {
+        item.destroy();
+      }
+    });
+    app.quit();
+  });
+
   mainWindow.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url);
     // 'deny' 表示不允许在 Electron 应用内打开新窗口。如果你想要允许在应用内打开新窗口，你可以返回 { action: 'allow' }。
@@ -44,7 +55,7 @@ function createWindow(): void {
   // 基于electronic vite cli的渲染器HMR。
   // 加载用于开发的远程URL或用于生产的本地html文件。
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+    mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/#/login`);
   } else {
     mainWindow.loadURL('http://localhost:6688/#/login');
     // mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
@@ -76,7 +87,10 @@ if (!isFirstInstance) {
       optimizer.watchWindowShortcuts(window);
     });
     // IPC test
-    ipcMain.on('ping', () => console.log('pong'));
+    ipcMain.on('ping', (event, arg) => {
+      console.log('pong', event, arg);
+      checkIp(arg);
+    });
     createWindow();
 
     app.on('activate', function () {
@@ -94,6 +108,26 @@ if (!isFirstInstance) {
     if (process.platform !== 'darwin') {
       app.quit();
     }
+  });
+}
+
+const { exec } = require('child_process');
+
+function checkIp(ip) {
+  // 要执行的shell脚本命令
+  const shellCommand = `ping ${ip}`;
+
+  exec(shellCommand, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`执行错误: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+
+    // 脚本的返回值通常通过退出码给出，可以通过error对象获取
+    const exitCode = error ? error.code : 0;
+    console.log(`脚本退出码: ${exitCode}`);
   });
 }
 

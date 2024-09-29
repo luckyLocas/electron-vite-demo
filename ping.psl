@@ -1,0 +1,17 @@
+# 脚本：check_ip.ps1  
+  
+# 获取脚本参数中的IP地址  
+param (  
+    [Parameter(Mandatory=$true, Position=0)]  
+    [string]$IPAddress  
+)  
+  
+# 使用Test-Connection检测IP地址是否可达，这里设置-Count 1表示只发送一个ping请求  
+$pingResult = Test-Connection -ComputerName $IPAddress -Count 1 -ErrorAction SilentlyContinue  
+  
+# 检查ping结果  
+if ($pingResult) {  
+    Write-Output "IP地址 $IPAddress 是可达的。"  
+} else {  
+    Write-Output "IP地址 $IPAddress 是不可达的。"  
+}
